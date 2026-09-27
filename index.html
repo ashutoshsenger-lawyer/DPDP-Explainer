@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DPDP Explainer</title>
+<meta name="description" content="Ask questions about India's Digital Personal Data Protection Act and Rules, answered with citations to the official Act, Rules, and gazette text.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F6F3;
+    --surface:#FFFFFF;
+    --surface-2:#EBEFE9;
+    --ink:#16211C;
+    --ink-muted:#57645C;
+    --border:#DCE2DA;
+    --accent:#0E7C63;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#E1F0EA;
+    --seal:#93691C;
+    --seal-soft:#F3E9D3;
+    --warn:#9A3324;
+    --warn-soft:#F7E6E1;
+    --shadow: 0 1px 2px rgba(22,33,28,0.06), 0 6px 20px rgba(22,33,28,0.06);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0C1613;
+      --surface:#122019;
+      --surface-2:#182922;
+      --ink:#E8EEEA;
+      --ink-muted:#93A69C;
+      --border:#24352C;
+      --accent:#3ED2A8;
+      --accent-ink:#06231B;
+      --accent-soft:#16332A;
+      --seal:#DDAE58;
+      --seal-soft:#2A2214;
+      --warn:#E2695A;
+      --warn-soft:#341C17;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0C1613;
+    --surface:#122019;
+    --surface-2:#182922;
+    --ink:#E8EEEA;
+    --ink-muted:#93A69C;
+    --border:#24352C;
+    --accent:#3ED2A8;
+    --accent-ink:#06231B;
+    --accent-soft:#16332A;
+    --seal:#DDAE58;
+    --seal-soft:#2A2214;
+    --warn:#E2695A;
+    --warn-soft:#341C17;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.35);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  html, body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Work Sans", system-ui, sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  ::selection{ background:var(--accent-soft); }
+
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; text-wrap:balance; margin:0; }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, monospace; }
+
+  a{ color:var(--accent); }
+
+  button{ font-family:inherit; cursor:pointer; }
+  button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible{
+    outline:2px solid var(--accent); outline-offset:2px;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    flex:0 0 auto;
+    padding-top: calc(10px + env(safe-area-inset-top,0px));
+    padding-inline:16px;
+    padding-bottom:10px;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .brand{ display:flex; align-items:baseline; gap:8px; margin-right:auto; min-width:0; }
+  .brand h1{ font-size:19px; font-weight:600; letter-spacing:-0.01em; white-space:nowrap; }
+  .brand .tag{ font-size:11px; color:var(--ink-muted); letter-spacing:0.04em; text-transform:uppercase; white-space:nowrap; display:none; }
+  @media (min-width:560px){ .brand .tag{ display:inline; } }
+
+  .phase-pill{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:11.5px; font-weight:500; letter-spacing:0.01em;
+    padding:5px 10px 5px 8px; border-radius:999px;
+    background:var(--accent-soft); color:var(--ink); border:1px solid transparent;
+    white-space:nowrap;
+  }
+  .phase-pill .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); flex:0 0 auto; }
+  .phase-pill.warn{ background:var(--warn-soft); }
+  .phase-pill.warn .dot{ background:var(--warn); }
+
+  .about-btn{
+    background:transparent; border:1px solid var(--border); color:var(--ink-muted);
+    border-radius:999px; padding:6px 12px; font-size:12.5px; font-weight:500;
+  }
+  .about-btn:hover{ color:var(--ink); border-color:var(--ink-muted); }
+
+  /* ---------- tabs ---------- */
+  .tabs{
+    flex:0 0 auto;
+    display:flex; gap:2px;
+    padding:8px 16px 0;
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+  }
+  .tab{
+    background:transparent; border:none; color:var(--ink-muted);
+    padding:8px 4px 10px; font-size:13.5px; font-weight:500;
+    border-bottom:2px solid transparent; margin-right:18px;
+  }
+  .tab.active{ color:var(--ink); border-bottom-color:var(--accent); }
+
+  main{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  .view{ flex:1 1 auto; min-height:0; display:none; flex-direction:column; }
+  .view.active{ display:flex; }
+
+  /* ---------- chat ---------- */
+  #log{
+    flex:1 1 auto; min-height:0; overflow-y:auto;
+    padding: 18px 16px 12px;
+    display:flex; flex-direction:column; gap:16px;
+  }
+  .msg{ max-width:640px; }
+  .msg.user{ align-self:flex-end; }
+  .msg.assistant{ align-self:stretch; }
+
+  .bubble-user{
+    background:var(--surface-2); border-radius:14px 14px 4px 14px;
+    padding:10px 14px; font-size:14.5px;
+  }
+  .assistant-card{
+    border-left:3px solid var(--accent);
+    padding:2px 0 2px 14px;
+  }
+  .assistant-card p{ margin:0 0 10px; }
+  .assistant-card p:last-child{ margin-bottom:0; }
+  .assistant-card ul, .assistant-card ol{ margin:0 0 10px; padding-left:20px; }
+  .assistant-card li{ margin-bottom:4px; }
+  .assistant-card strong{ font-weight:600; }
+  .assistant-card code{ font-family:"IBM Plex Mono", monospace; font-size:0.92em; background:var(--surface-2); padding:1px 5px; border-radius:4px; }
+
+  .cites{ display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; padding-left:14px; }
+  .cite-badge{
+    font-family:"IBM Plex Mono", monospace; font-size:10.5px; letter-spacing:0.01em;
+    background:var(--seal-soft); color:var(--seal); border-radius:5px;
+    padding:3px 7px; white-space:nowrap;
+  }
+
+  .thinking{ padding-left:14px; color:var(--ink-muted); font-size:13.5px; font-style:italic; }
+  .thinking .dots span{ animation: blink 1.2s infinite; }
+  .thinking .dots span:nth-child(2){ animation-delay:0.2s; }
+  .thinking .dots span:nth-child(3){ animation-delay:0.4s; }
+  @keyframes blink{ 0%,80%,100%{opacity:0.25;} 40%{opacity:1;} }
+  @media (prefers-reduced-motion: reduce){ .thinking .dots span{ animation:none; opacity:1; } }
+
+  .err-card{
+    border-left:3px solid var(--warn); padding:10px 0 10px 14px; color:var(--warn); font-size:13.5px;
+  }
+
+  .empty-state{
+    margin:auto; max-width:520px; text-align:center; padding:24px 12px; display:flex; flex-direction:column; gap:16px; align-items:center;
+  }
+  .empty-state h2{ font-size:22px; font-weight:600; }
+  .empty-state p{ color:var(--ink-muted); font-size:14px; margin:0; max-width:420px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+  .chip{
+    background:var(--surface); border:1px solid var(--border); color:var(--ink);
+    border-radius:10px; padding:9px 12px; font-size:13px; text-align:left; max-width:280px;
+  }
+  .chip:hover{ border-color:var(--accent); background:var(--accent-soft); }
+
+  .composer-wrap{
+    flex:0 0 auto; border-top:1px solid var(--border); background:var(--surface);
+    padding: 10px 16px calc(12px + env(safe-area-inset-bottom,0px));
+  }
+  .disclaimer-line{
+    font-size:10.5px; color:var(--ink-muted); text-align:center; margin-bottom:8px; letter-spacing:0.01em;
+  }
+  #composer{ display:flex; gap:8px; align-items:flex-end; }
+  #q{
+    flex:1 1 auto; resize:none; border:1px solid var(--border); border-radius:12px;
+    background:var(--bg); color:var(--ink); padding:10px 12px; font-family:inherit; font-size:14.5px;
+    max-height:120px; line-height:1.4;
+  }
+  #send{
+    flex:0 0 auto; background:var(--accent); color:var(--accent-ink); border:none;
+    width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  }
+  #send:disabled{ opacity:0.45; cursor:default; }
+  #send svg{ width:18px; height:18px; }
+
+  .degraded-note{
+    padding:10px 12px; margin: 0 16px 10px; background:var(--warn-soft); color:var(--warn);
+    border-radius:10px; font-size:12.5px;
+  }
+
+  /* ---------- browse tab ---------- */
+  #browse{ padding:14px 16px; overflow-y:auto; gap:14px; }
+  .browse-search{
+    display:flex; gap:8px; flex:0 0 auto; margin-bottom:4px;
+  }
+  .browse-search input{
+    flex:1; border:1px solid var(--border); border-radius:10px; background:var(--surface);
+    color:var(--ink); padding:9px 12px; font-family:inherit; font-size:13.5px;
+  }
+  .part-group{ margin-bottom:6px; }
+  .part-title{
+    font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-muted);
+    margin:18px 0 8px; font-weight:600;
+  }
+  .part-title:first-child{ margin-top:2px; }
+  details.chunk{
+    border:1px solid var(--border); border-radius:10px; background:var(--surface);
+    margin-bottom:6px; overflow:hidden;
+  }
+  details.chunk summary{
+    padding:10px 12px; font-size:13.5px; font-weight:500; list-style:none; display:flex; gap:8px; align-items:baseline;
+    cursor:pointer;
+  }
+  details.chunk summary::-webkit-details-marker{ display:none; }
+  details.chunk summary::before{ content:"+"; font-family:"IBM Plex Mono",monospace; color:var(--accent); flex:0 0 auto; width:12px; }
+  details.chunk[open] summary::before{ content:"–"; }
+  details.chunk .chunk-body{
+    padding:0 14px 14px; font-size:13.5px; color:var(--ink-muted); white-space:pre-wrap; line-height:1.55;
+  }
+  .no-results{ color:var(--ink-muted); font-size:13.5px; padding:20px 4px; }
+
+  /* ---------- about panel ---------- */
+  #about-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,0.35); display:none; align-items:flex-start; justify-content:center;
+    padding: max(16px, env(safe-area-inset-top,0px)) 16px 16px; z-index:20; overflow-y:auto;
+  }
+  #about-overlay.open{ display:flex; }
+  #about-panel{
+    background:var(--surface); border-radius:14px; max-width:560px; width:100%; margin-top:24px;
+    padding:22px 22px 24px; box-shadow:var(--shadow); border:1px solid var(--border);
+  }
+  #about-panel h2{ font-size:19px; margin-bottom:4px; }
+  #about-panel .sub{ color:var(--ink-muted); font-size:12.5px; margin-bottom:16px; }
+  #about-panel h3{ font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-muted); margin:16px 0 6px; font-family:"Work Sans",sans-serif; font-weight:600; }
+  #about-panel p, #about-panel li{ font-size:13.5px; margin:0 0 6px; }
+  #about-panel ul{ padding-left:18px; margin:0; }
+  #about-panel .close-row{ display:flex; justify-content:flex-end; margin-top:18px; }
+  #about-panel .close-btn{
+    background:var(--accent); color:var(--accent-ink); border:none; border-radius:9px; padding:8px 16px; font-size:13px; font-weight:500;
+  }
+
+  @media (max-width:480px){
+    .brand h1{ font-size:17px; }
+    .msg{ max-width:100%; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>DPDP&nbsp;Explainer</h1>
+    <span class="tag">India · data protection law</span>
+  </div>
+  <span class="phase-pill" id="phasePill"><span class="dot"></span><span id="phaseText">Loading status…</span></span>
+  <button class="about-btn" id="aboutBtn" type="button">Sources &amp; limits</button>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="ask" type="button">Ask</button>
+  <button class="tab" data-tab="browse" type="button">Browse the text</button>
+</div>
+
+<main>
+  <section class="view active" id="view-ask" style="flex-direction:column;">
+    <div id="degradedNote" class="degraded-note" hidden></div>
+    <div id="log"></div>
+    <div class="composer-wrap">
+      <div class="disclaimer-line">Educational information, not legal advice — grounded in the Act &amp; Rules text, not always the current in-force status.</div>
+      <form id="composer">
+        <textarea id="q" rows="1" placeholder="Ask about consent, breach notice, penalties, children's data…" autocomplete="off"></textarea>
+        <button id="send" type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <section class="view" id="view-browse" style="flex-direction:column;">
+    <div id="browse">
+      <div class="browse-search">
+        <input id="browseSearch" type="text" placeholder="Filter by section, rule, or keyword (e.g. “breach”, “Rule 7”, “children”)">
+      </div>
+      <div id="browseList"></div>
+    </div>
+  </section>
+</main>
+
+<div id="about-overlay">
+  <div id="about-panel">
+    <h2>Sources &amp; limitations</h2>
+    <div class="sub">Read this before relying on an answer.</div>
+
+    <h3>What this is</h3>
+    <p>A public explainer for the Digital Personal Data Protection Act, 2023 and the DPDP Rules, 2025, built by an Indian advocate. Answers are generated by an AI model (Google Gemini) that is given retrieved excerpts from the primary texts below and instructed to cite them — it is not a lawyer and this is not legal advice for your specific situation.</p>
+
+    <h3>Primary sources used</h3>
+    <ul>
+      <li>DPDP Act, 2023 — full official text, Gazette of India, 11 Aug 2023 (MeitY)</li>
+      <li>DPDP Rules, 2025 — final notified text, G.S.R. 846(E), 13 Nov 2025 (MeitY)</li>
+      <li>PIB official explainer on the Rules notification, 17 Nov 2025</li>
+    </ul>
+    <p style="margin-top:8px;">No official MeitY FAQ document on the Act could be located — several "FAQ" PDFs circulating online are law-firm publications, not government documents, and this tool does not treat them as authoritative.</p>
+
+    <h3>Known limitations</h3>
+    <ul>
+      <li>Commencement is staggered in three phases (see the status pill above) — most substantive obligations are not yet legally enforceable.</li>
+      <li>The Data Protection Board's staffing/operational status changes over time; verify independently before assuming it is actively hearing complaints.</li>
+      <li>No list of restricted countries for cross-border transfer has been notified yet.</li>
+      <li>This tool paraphrases the Act and Rules for readability. Where exact statutory wording is dispositive, pull the official gazette text directly.</li>
+      <li>The knowledge base was compiled in September 2026 and is not live-updated — a later amendment or Board appointment will not be reflected.</li>
+      <li>This is a free public tool with no login. Please be considerate of shared capacity.</li>
+    </ul>
+
+    <div class="close-row"><button class="close-btn" id="aboutClose" type="button">Close</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---------------- phase / commencement status ----------------
+  var PHASE2 = new Date("2026-11-13T00:00:00Z");
+  var PHASE3 = new Date("2027-05-14T00:00:00Z");
+  var now = new Date();
+
+  function weeksUntil(d){
+    var ms = d.getTime() - now.getTime();
+    return Math.max(1, Math.round(ms / (7*24*3600*1000)));
+  }
+  var phaseInfo;
+  if (now < PHASE2){
+    phaseInfo = { label: "Phase 1 in force · Consent Manager duty in ~" + weeksUntil(PHASE2) + " wks", warn:false };
+  } else if (now < PHASE3){
+    phaseInfo = { label: "Phase 2 in force · core obligations in ~" + weeksUntil(PHASE3) + " wks", warn:true };
+  } else {
+    phaseInfo = { label: "Phase 3 in force · core Act obligations are live", warn:true };
+  }
+  document.getElementById("phaseText").textContent = phaseInfo.label;
+  if (phaseInfo.warn) document.getElementById("phasePill").classList.add("warn");
+
+  var TODAY_STR = now.toLocaleDateString("en-IN", { year:"numeric", month:"long", day:"numeric" });
+
+  // ---------------- tabs ----------------
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function(t){
+    t.addEventListener("click", function(){
+      tabs.forEach(function(x){ x.classList.remove("active"); });
+      t.classList.add("active");
+      document.getElementById("view-ask").classList.remove("active");
+      document.getElementById("view-browse").classList.remove("active");
+      document.getElementById("view-" + t.dataset.tab).classList.add("active");
+    });
+  });
+
+  // ---------------- about overlay ----------------
+  var overlay = document.getElementById("about-overlay");
+  document.getElementById("aboutBtn").addEventListener("click", function(){ overlay.classList.add("open"); });
+  document.getElementById("aboutClose").addEventListener("click", function(){ overlay.classList.remove("open"); });
+  overlay.addEventListener("click", function(e){ if (e.target === overlay) overlay.classList.remove("open"); });
+
+  // ---------------- html escaping + tiny markdown ----------------
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return { "&":"&amp;", "<":"&lt;", ">":"&gt;", "\"":"&quot;", "'":"&#39;" }[c];
+    });
+  }
+  function renderMd(raw){
+    var text = esc(raw);
+    text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+    var lines = text.split("\n");
+    var html = ""; var inList = null;
+    function closeList(){ if (inList){ html += "</" + inList + ">"; inList = null; } }
+    lines.forEach(function(line){
+      var t = line.trim();
+      var ol = /^\d+[\.\)]\s+(.*)$/.exec(t);
+      var ul = /^[-*]\s+(.*)$/.exec(t);
+      if (ul){
+        if (inList !== "ul"){ closeList(); html += "<ul>"; inList = "ul"; }
+        html += "<li>" + ul[1] + "</li>";
+      } else if (ol){
+        if (inList !== "ol"){ closeList(); html += "<ol>"; inList = "ol"; }
+        html += "<li>" + ol[1] + "</li>";
+      } else if (t === ""){
+        closeList();
+      } else {
+        closeList();
+        html += "<p>" + t + "</p>";
+      }
+    });
+    closeList();
+    return html || "<p></p>";
+  }
+
+  // ---------------- knowledge base + retrieval ----------------
+  var KB = [];
+  fetch("./dpdp_kb.json").then(function(r){ return r.json(); }).then(function(data){
+    KB = data;
+    buildBrowse();
+  }).catch(function(){
+    KB = [];
+  });
+
+  var STOP = {};
+  ("the a an is are of to in and or for on by with as that this it be can do does what which who whom how if when where why not no under about any from into must shall will would should i my me we our your you their its who's whats can't don't does't been was were has have had also than then there here").split(" ").forEach(function(w){ STOP[w]=1; });
+
+  function tokenize(s){
+    var m = (s.toLowerCase().match(/[a-z0-9]+/g)) || [];
+    return m.filter(function(t){ return t.length > 1 && !STOP[t]; });
+  }
+
+  var CORE_HEADINGS = [
+    "Overview & phased commencement (the Act)",
+    "THE SCHEDULE — Penalties [see Section 33(1)]",
+    "Status (as verified from primary sources)",
+    "Commencement schedule of the Rules (Rule 1)",
+    "4.1 Data Protection Board of India — real-world operational status",
+    "4.3 Phased implementation timeline (consolidated, cross-referencing Parts 1 and 2)"
+  ];
+
+  function directNumberBoosts(query){
+    var boosts = {};
+    var re = /\b(section|sec\.?|s\.)\s*(\d{1,2})\b/gi;
+    var m;
+    while ((m = re.exec(query))) { boosts["section:" + m[2]] = 200; }
+    re = /\b(rule|r\.)\s*(\d{1,2})\b/gi;
+    while ((m = re.exec(query))) { boosts["rule:" + m[2]] = 200; }
+    if (/schedule/i.test(query)) { boosts["schedule"] = 60; }
+    return boosts;
+  }
+
+  function retrieve(query, maxChars){
+    maxChars = maxChars || 12000;
+    if (!KB.length) return { text: "", chunks: [] };
+    var qTokens = tokenize(query);
+    var boosts = directNumberBoosts(query);
+    var scored = KB.map(function(c){
+      var score = 0;
+      var headingLower = c.heading.toLowerCase();
+      qTokens.forEach(function(tok){
+        var hCount = headingLower.split(tok).length - 1;
+        var bCount = c.body.toLowerCase().split(tok).length - 1;
+        score += hCount * 5 + bCount * 1;
+      });
+      var secMatch = /^section (\d{1,2})\b/i.exec(c.heading);
+      if (secMatch && boosts["section:" + secMatch[1]]) score += boosts["section:" + secMatch[1]];
+      var ruleMatch = /^rule (\d{1,2})\b/i.exec(c.heading);
+      if (ruleMatch && boosts["rule:" + ruleMatch[1]]) score += boosts["rule:" + ruleMatch[1]];
+      if (boosts.schedule && /schedule/i.test(c.heading)) score += boosts.schedule;
+      var isCore = CORE_HEADINGS.indexOf(c.heading) !== -1;
+      return { c: c, score: score, isCore: isCore };
+    });
+
+    var core = scored.filter(function(s){ return s.isCore; });
+    var rest = scored.filter(function(s){ return !s.isCore && s.score > 0; })
+      .sort(function(a,b){ return b.score - a.score; })
+      .slice(0, 10);
+
+    var picked = core.concat(rest);
+    var pickedIds = {};
+    picked.forEach(function(p){ pickedIds[p.c.id] = true; });
+    var ordered = KB.filter(function(c){ return pickedIds[c.id]; });
+
+    var parts = []; var total = 0; var used = [];
+    for (var i=0; i<ordered.length; i++){
+      var c = ordered[i];
+      var label = "[" + c.part.replace(/^PART \d+ — /,"") + " — " + c.heading + "]";
+      var block = label + "\n" + c.body;
+      if (total + block.length > maxChars && used.length > 4) continue;
+      parts.push(block);
+      used.push(c);
+      total += block.length;
+    }
+    return { text: parts.join("\n\n"), chunks: used };
+  }
+
+  // ---------------- browse tab ----------------
+  function buildBrowse(){
+    var list = document.getElementById("browseList");
+    render("");
+    document.getElementById("browseSearch").addEventListener("input", function(e){ render(e.target.value); });
+
+    function render(filter){
+      var f = filter.trim().toLowerCase();
+      var fTokens = tokenize(filter);
+      list.innerHTML = "";
+      var lastPart = null;
+      var anyShown = false;
+      KB.forEach(function(c){
+        var hay = (c.heading + " " + c.body).toLowerCase();
+        var show = !f || hay.indexOf(f) !== -1 || fTokens.some(function(t){ return hay.indexOf(t) !== -1; });
+        if (!show) return;
+        anyShown = true;
+        if (c.part !== lastPart){
+          var pt = document.createElement("div");
+          pt.className = "part-title";
+          pt.textContent = c.part;
+          list.appendChild(pt);
+          lastPart = c.part;
+        }
+        var det = document.createElement("details");
+        det.className = "chunk";
+        var sum = document.createElement("summary");
+        sum.textContent = c.heading;
+        var body = document.createElement("div");
+        body.className = "chunk-body";
+        body.textContent = c.body;
+        det.appendChild(sum);
+        det.appendChild(body);
+        list.appendChild(det);
+      });
+      if (!anyShown){
+        var none = document.createElement("div");
+        none.className = "no-results";
+        none.textContent = "No sections match “" + filter + "”.";
+        list.appendChild(none);
+      }
+    }
+  }
+
+  // ---------------- chat ----------------
+  var log = document.getElementById("log");
+  var form = document.getElementById("composer");
+  var qInput = document.getElementById("q");
+  var sendBtn = document.getElementById("send");
+  var history = []; // {role, content} — role is "user" or "assistant"
+  var busy = false;
+
+  var SUGGESTIONS = [
+    "Is the DPDP Act actually in force right now?",
+    "What counts as a “personal data breach” and when must it be reported?",
+    "Do I need to appoint a Data Protection Officer?",
+    "How is a child's data supposed to be handled?",
+    "What are the maximum penalties for non-compliance?",
+    "Can a person get their data erased on request?"
+  ];
+
+  function showEmptyState(){
+    log.innerHTML = "";
+    var wrap = document.createElement("div");
+    wrap.className = "empty-state";
+    wrap.innerHTML = "<h2>Ask about India's DPDP framework</h2>" +
+      "<p>Every answer is generated from the Act and Rules text and cites the specific section or rule it relies on. As of " + esc(TODAY_STR) + ", " + esc(phaseInfo.label.split(" · ")[1] || phaseInfo.label) + ".</p>";
+    var chips = document.createElement("div");
+    chips.className = "chips";
+    SUGGESTIONS.forEach(function(s){
+      var b = document.createElement("button");
+      b.className = "chip"; b.type = "button"; b.textContent = s;
+      b.addEventListener("click", function(){ qInput.value = s; form.requestSubmit(); });
+      chips.appendChild(b);
+    });
+    wrap.appendChild(chips);
+    log.appendChild(wrap);
+  }
+
+  function addUserMsg(text){
+    var d = document.createElement("div");
+    d.className = "msg user";
+    var b = document.createElement("div");
+    b.className = "bubble-user";
+    b.textContent = text;
+    d.appendChild(b);
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function addThinking(){
+    var d = document.createElement("div");
+    d.className = "msg assistant";
+    d.innerHTML = "<div class=\"thinking\">Reading the Act &amp; Rules<span class=\"dots\"><span>.</span><span>.</span><span>.</span></span></div>";
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+    return d;
+  }
+
+  function addAssistantMsg(text, chunks){
+    var d = document.createElement("div");
+    d.className = "msg assistant";
+    var card = document.createElement("div");
+    card.className = "assistant-card";
+    card.innerHTML = renderMd(text);
+    d.appendChild(card);
+    if (chunks && chunks.length){
+      var cites = document.createElement("div");
+      cites.className = "cites";
+      chunks.slice(0, 8).forEach(function(c){
+        var badge = document.createElement("span");
+        badge.className = "cite-badge";
+        badge.textContent = c.heading.replace(/ — .*$/, "");
+        cites.appendChild(badge);
+      });
+      d.appendChild(cites);
+    }
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+    return card;
+  }
+
+  function addErrorMsg(text){
+    var d = document.createElement("div");
+    d.className = "msg assistant";
+    d.innerHTML = "<div class=\"err-card\">" + esc(text) + "</div>";
+    log.appendChild(d);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function setBusy(v){
+    busy = v;
+    sendBtn.disabled = v;
+    qInput.disabled = v;
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var question = qInput.value.trim();
+    if (!question || busy) return;
+    qInput.value = "";
+    qInput.style.height = "auto";
+    if (history.length === 0) log.innerHTML = "";
+    addUserMsg(question);
+
+    var priorHistory = history.slice();
+    history.push({ role:"user", content: question });
+
+    var r = retrieve(question);
+    setBusy(true);
+    var thinkingNode = addThinking();
+
+    fetch("/api/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question: question, context: r.text, history: priorHistory })
+    }).then(function(resp){
+      return resp.json().then(function(data){ return { ok: resp.ok, status: resp.status, data: data }; });
+    }).then(function(res){
+      thinkingNode.remove();
+      if (!res.ok){
+        var msg = "Something went wrong getting an answer.";
+        if (res.status === 429) msg = "This tool is getting a lot of questions right now — please wait a moment and try again.";
+        else if (res.data && res.data.message) msg = res.data.message;
+        addErrorMsg(msg);
+        history.pop();
+        setBusy(false);
+        return;
+      }
+      addAssistantMsg(res.data.text, r.chunks);
+      history.push({ role:"assistant", content: res.data.text });
+      setBusy(false);
+      qInput.focus();
+    }).catch(function(){
+      thinkingNode.remove();
+      addErrorMsg("Couldn't reach the server. Check your connection and try again.");
+      history.pop();
+      setBusy(false);
+    });
+  });
+
+  qInput.addEventListener("keydown", function(e){
+    if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); form.requestSubmit(); }
+  });
+  qInput.addEventListener("input", function(){
+    qInput.style.height = "auto";
+    qInput.style.height = Math.min(120, qInput.scrollHeight) + "px";
+  });
+
+  showEmptyState();
+})();
+</script>
+</body>
+</html>
